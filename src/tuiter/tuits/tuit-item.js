@@ -1,5 +1,5 @@
-import React from "react"
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteTuitThunk } from "../services/tuits-thunks";
 import "./tuit-item.css";
 import TuitStats from "./tuit-stats"
@@ -27,21 +27,35 @@ const TuitItem = (
         dispatch(deleteTuitThunk(id));
     }
 
+    const { currentUser } = useSelector((state) => state.user);
+    const [profile, setProfile] = useState(currentUser);
+    const roleUser = currentUser ? currentUser.role : null; // prevent null
+    console.log(roleUser)
+
     return (
         <li className="list-group-item">
             <div className="row">
                 <div className="col-2">
                     <img width={70} className="float-end rounded-3" src={`/images/${tuit.image}`} />
                 </div>
+
                 <div className="col-10">
-                    <i className="bi bi-x-lg float-end btn btn-danger rounded-pill float-end mt-2 ps-2 pe-2 fw-bold"
-                        onClick={() => deleteTuitHandler(tuit._id)}>Delete</i>
+                    {/* to complete */}
+                    {profile && roleUser === "Admin" && (
+                        <i 
+                            className="bi bi-x-lg float-end btn btn-danger rounded-pill float-end mt-2 ps-2 pe-2 fw-bold"
+                            onClick={() => deleteTuitHandler(tuit._id)}
+                        >
+                            Delete
+                        </i>
+                    )}
                     <div className="row">
                         <div><span className="fw-bolder">{tuit.username}</span> <i className="fas fa-check-circle wd-blue"></i> {tuit.handle} • {tuit.time}</div>
                         <div>{tuit.tuit}</div>
                     </div>
                     <br></br>
-                    <TuitStats key={tuit._id} tuit={tuit} />
+                    {/* // not shown tuitstats if not a currnt user */}
+                    {currentUser && <TuitStats key={tuit._id} tuit={tuit} />}
                 </div>
             </div>
 

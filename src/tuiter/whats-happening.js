@@ -12,6 +12,7 @@ import { templateTuit } from "./templates/template-tuit"
 
 const WhatsHappening = () => {
     const { currentUser } = useSelector((state) => state.user);
+    // console.log(currentUser);
     let [whatsHappening, setWhatsHappening] = useState('');
     const dispatch = useDispatch();
     const tuitClickHandler = () => {
@@ -37,7 +38,7 @@ const WhatsHappening = () => {
                 <div>
                     <button className="rounded-pill btn btn-primary float-end mt-2 ps-3 pe-3 fw-bold"
                         onClick={tuitClickHandler}>
-                        Tuit
+                        Guide
                     </button>
                     <div className="text-primary fs-2">
                         <AiOutlinePicture className="me-3" />
